@@ -1,0 +1,28 @@
+# altLabels in German always have first letter capitalized
+
+SELECT 
+?s 
+?altLabel
+?prefLabel
+
+WHERE {
+
+  { ?s rdfs:label "3D-Druck"@de . }
+
+  UNION
+  { ?s skos:altLabel "3D-Druck"@de . }
+
+  ?s skos:altLabel ?altLabel .
+
+  FILTER( 
+         LANG(?altLabel) = "de" || 
+         LANG(?altLabel) = "en"
+         )
+
+  ?s rdfs:label ?prefLabel
+
+  FILTER( 
+         LANG(?prefLabel) = "de" || 
+         LANG(?prefLabel) = "en"
+         )
+}

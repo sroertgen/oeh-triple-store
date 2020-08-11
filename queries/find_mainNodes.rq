@@ -1,0 +1,30 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+PREFIX text: <http://jena.apache.org/text#>
+PREFIX sd: <http://www.w3.org/ns/sparql-service-description#>
+PREFIX sdo: <http://schema.org/>
+PREFIX deutsch: <http://vocabs.openeduhub.de/curr/deutsch> 
+prefix curr: <http://w3id.org/openeduhub/curricula/curriculum_bayern/>
+
+SELECT DISTINCT ?nodeName
+
+WHERE 
+{
+  GRAPH <http://w3id.org/openeduhub/curricula/curriculum_bayern/#> {
+  ?nodes sdo:about ?o ;
+         sdo:educationalLevel ?bNEduLevel .
+
+  ?o text:query(sdo:name 'mathematik'@de) .
+  
+  ?bNEduLevel text:query(sdo:name "6") .
+
+  FILTER EXISTS {
+      ?nodes sdo:isPartOf curr: . }
+  FILTER NOT EXISTS {
+      ?nodes sdo:hasPart ?parts . }
+  ?nodes sdo:name ?nodeName .
+
+}
+}
